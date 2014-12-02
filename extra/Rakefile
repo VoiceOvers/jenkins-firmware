@@ -44,18 +44,18 @@ ENV['CROSS_COMPILE'] = '/home/pop/Development/tools/arm-bcm2708/gcc-linaro-arm-l
 # expand on :rpi_linux_dt in stdlib/Rakefile
 # this action will run after all prerequisites have run
 release :rpi_linux_dt do
-  VAR['RASPBERRYPI_LINUX_BRANCH'] = 'rpi-3.15.y'
   VAR['FW_BRANCH'] = 'dt'
+VAR['RASPBERRYPI_LINUX_BRANCH']='rpi-3.15.y'
 #  VAR['DIFFPREP'] = 'u-boot,linux'
   # use delayed assignement of COMMIT_MESSAGE and Readme.desc,
   # since KERNEL_RELEASE is set during the kbuild target
   VAR.default('COMMIT_MESSAGE') { "Basic in-tree DT support. Kernel: #{VAR['KERNEL_RELEASE']}" }
 
   config ['BCM2708_DT', 'DYNAMIC_DEBUG', 'PROC_DEVICETREE'], :enable
-  config ['SPI_BCM2835', 'I2C_BCM2835', 'IEEE802154'], :module
-  config 'MAC802154', :module
-  config 'IEEE802154_DRIVERS', :module
-  config 'IEEE802154_CC2520', :module
+  config ['SPI_BCM2835', 'I2C_BCM2835', 'IEEE802154', 'MAC802154'], :module
+  config 'IEEE802154_DRIVERS', :enable
+  
+
 
 
   Readme.desc { "Raspberry Pi kernel #{VAR['KERNEL_RELEASE']} with Device Tree support on ARCH_BCM2708" }
@@ -110,4 +110,5 @@ Changelog
 #      raise
 #    end
 #  end
+
 end
